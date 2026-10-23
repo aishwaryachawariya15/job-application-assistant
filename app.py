@@ -23,7 +23,7 @@ from dotenv import load_dotenv
 from job_search import ADZUNA_COUNTRIES, DATE_RANGE_OPTIONS, get_provider
 from resume_parser import parse_resume
 from scoring import rank_jobs_for_resumes
-from skills import JOB_CATEGORY_KEYWORDS
+from skills import ADZUNA_CATEGORY_TAGS, JOB_CATEGORY_KEYWORDS
 from tailor import build_tailoring_suggestions, tailor_resume_docx_bytes, tailor_resume_text
 
 load_dotenv()
@@ -144,7 +144,11 @@ if submitted:
         country_code = ADZUNA_COUNTRIES[country_name]
         max_days_old = DATE_RANGE_OPTIONS[date_choice]
         want_h1b = h1b_choice == "Yes, I need sponsorship"
-        category_kw = JOB_CATEGORY_KEYWORDS.get(category_choice, [""])[0] if category_choice != "Any" else ""
+        # Plain-text fallback term for the "what" search query (e.g. "engineer").
+        category_fallback_term = JOB_CATEGORY_KEYWORDS.get(category_choice, [""])[0] if category_choice != "Any" else ""
+        # Adzuna's API only accepts its own fixed category tags (e.g. "engineering-jobs");
+        # arbitrary keywords here cause an HTTP 400, so look up the real tag separately.
+        api_category_tag = ADZUNA_CATEGORY_TAGS.get(category_choice) or ""
 
         all_jobs = []
         with st.spinner("Searching jobs for each resume..."):
@@ -153,7 +157,7 @@ if submitted:
                     what_query = job_title_override.strip()
                 else:
                     top_terms = [k for k in parsed.keywords if " " not in k][:6]
-                    what_query = " ".join(top_terms) or (category_kw or "")
+                    what_query = " ".join(top_terms) or (category_fallback_term or "")
 
                 try:
                     jobs = provider.search(
@@ -162,7 +166,7 @@ if submitted:
                         where=where,
                         max_days_old=max_days_old,
                         results_per_page=results_per_search,
-                        category_tag=category_kw,
+                        category_tag=api_category_tag,
                     )
                     all_jobs.extend(jobs)
                 except Exception as e:

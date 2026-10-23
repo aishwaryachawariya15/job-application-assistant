@@ -158,3 +158,24 @@ JOB_CATEGORY_KEYWORDS = {
     "Project / Product Management": ["project manager", "product manager", "program manager", "scrum"],
     "Manufacturing": ["manufacturing", "production", "assembly", "quality control", "six sigma"],
 }
+
+# Adzuna's API only accepts its own fixed category "tag" values (verified via
+# the /categories endpoint) - NOT arbitrary keywords. Passing anything else
+# as the `category` query param returns an HTTP 400. Categories without a
+# solid match are left unmapped (None) so no category filter is sent to the
+# API for them; local keyword filtering (JOB_CATEGORY_KEYWORDS, above) still
+# narrows results client-side in that case.
+ADZUNA_CATEGORY_TAGS = {
+    "Engineering": "engineering-jobs",
+    "IT / Software": "it-jobs",
+    "Sales": "sales-jobs",
+    "Marketing": "pr-advertising-marketing-jobs",
+    "Finance / Accounting": "accounting-finance-jobs",
+    "Operations / Supply Chain": "logistics-warehouse-jobs",
+    "Customer Service / Support": "customer-services-jobs",
+    "Human Resources": "hr-jobs",
+    "Healthcare": "healthcare-nursing-jobs",
+    "Data / Analytics": None,
+    "Project / Product Management": None,
+    "Manufacturing": "manufacturing-jobs",
+}

@@ -106,13 +106,19 @@ class AdzunaClient:
             "app_id": self.app_id,
             "app_key": self.app_key,
             "results_per_page": results_per_page,
-            "what": what,
+            # Adzuna's "what" param requires ALL terms to match (AND logic),
+            # which is overly restrictive when we pass many resume keywords
+            # at once. "what_or" matches jobs containing ANY of the terms,
+            # giving a much more useful candidate pool for ranking.
+            "what_or": what,
             "max_days_old": max_days_old,
             "content-type": "application/json",
         }
         if where:
             params["where"] = where
         if category_tag:
+            # Must be one of Adzuna's own category tags (see ADZUNA_CATEGORY_TAGS
+            # in skills.py) - arbitrary keywords here return an HTTP 400.
             params["category"] = category_tag
 
         resp = requests.get(url, params=params, timeout=20)
