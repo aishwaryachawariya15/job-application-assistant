@@ -20,6 +20,7 @@ import os
 import streamlit as st
 from dotenv import load_dotenv
 
+from analytics import get_visit_count, record_visit
 from job_search import ADZUNA_COUNTRIES, DATE_RANGE_OPTIONS, get_provider
 from resume_parser import parse_resume
 from scoring import rank_jobs_for_resumes
@@ -36,12 +37,27 @@ if "results" not in st.session_state:
     st.session_state.results = []
 if "searched" not in st.session_state:
     st.session_state.searched = False
+if "visit_counted" not in st.session_state:
+    # Count once per browser session (not on every widget rerun), using a
+    # free zero-setup counter API so the developer can see total visits
+    # without exposing anything to regular visitors.
+    record_visit()
+    st.session_state.visit_counted = True
 
 st.title("Job Application Assistant")
 st.caption(
     "Upload resumes, answer a few questions, and get a ranked shortlist of jobs to apply to - "
     "with a suggested resume, a rough ATS score, and an H1B sponsorship likelihood for each."
 )
+
+# Developer-only visit stats, shown only when visiting with ?admin=1 in the
+# URL - e.g. https://oreo-job-agent.streamlit.app/?admin=1
+if st.query_params.get("admin") == "1":
+    visit_total = get_visit_count()
+    if visit_total is not None:
+        st.info(f"📊 Developer stats: {visit_total} total visits recorded.")
+    else:
+        st.info("📊 Developer stats: visit counter temporarily unavailable.")
 
 # ---------------------------------------------------------------------------
 # Sidebar: API credentials
