@@ -38,23 +38,42 @@ def detect_h1b(description: str) -> str:
     return "Not Mentioned"
 
 
-def keyword_match_score(resume_keywords: list[str], job_text: str) -> tuple[float, list[str], list[str]]:
-    """Return (match_percent, matched_keywords, missing_keywords).
+def keyword_match_score(
+    resume_keywords: list[str], job_text: str
+) -> tuple[float, list[str], list[str], bool, int]:
+    """Return (match_percent, matched_keywords, missing_keywords, is_short_description, job_word_count).
 
     missing_keywords are resume-relevant SKILLS_DB terms that appear in the
     job description but not in the resume keyword list - useful for the
     "tailor resume" feature.
+
+    Many job boards/APIs (including Adzuna's free tier) only return a
+    short snippet of the full posting rather than the complete text. A
+    resume's top keywords are compared against whatever text is available,
+    so a short snippet can only ever contain a handful of them - this would
+    unfairly tank the match percentage if divided by the resume's full
+    keyword count. Instead, the percentage is divided by however many
+    distinct keyword "slots" the available text could plausibly hold
+    (roughly one concept per ~10 words), capped by the resume's own
+    keyword count, so short snippets are judged on a fair, smaller scale.
     """
     job_text_lower = job_text.lower()
     resume_kw_lower = {k.lower() for k in resume_keywords}
 
     matched = [kw for kw in resume_keywords if text_contains_keyword(job_text_lower, kw)]
-    match_percent = (len(matched) / len(resume_keywords) * 100) if resume_keywords else 0.0
+
+    job_word_count = len(job_text.split())
+    estimated_capacity = max(5, job_word_count // 10)
+    effective_denominator = min(len(resume_keywords), estimated_capacity) if resume_keywords else 0
+    match_percent = (len(matched) / effective_denominator * 100) if effective_denominator else 0.0
+    match_percent = min(match_percent, 100.0)
+
+    is_short_description = job_word_count < 120 or job_text.rstrip().endswith(("…", "..."))
 
     job_skill_terms = find_skills_in_text(job_text_lower)
     missing = sorted(job_skill_terms - resume_kw_lower)
 
-    return round(match_percent, 1), matched, missing
+    return round(match_percent, 1), matched, missing, is_short_description, job_word_count
 
 
 def ats_score(resume: ParsedResume, job: JobPosting) -> tuple[int, dict]:
@@ -63,7 +82,7 @@ def ats_score(resume: ParsedResume, job: JobPosting) -> tuple[int, dict]:
     an Applicant Tracking System might rank a resume against a job
     description; it is a heuristic, not an official ATS algorithm.
     """
-    match_percent, matched_keywords, missing_keywords = keyword_match_score(
+    match_percent, matched_keywords, missing_keywords, is_short_description, job_word_count = keyword_match_score(
         resume.keywords, job.description
     )
 
@@ -71,7 +90,14 @@ def ats_score(resume: ParsedResume, job: JobPosting) -> tuple[int, dict]:
 
     # Keyword overlap: up to 60 points.
     keyword_points = round(min(match_percent, 100) * 0.6)
-    breakdown["Keyword match"] = f"{keyword_points}/60 ({match_percent}% of resume keywords found in job description)"
+    keyword_note = f"{keyword_points}/60 ({match_percent}% of resume keywords found in job description)"
+    if is_short_description:
+        keyword_note += (
+            f" - note: this posting's description is short (~{job_word_count} words), likely a "
+            "truncated snippet from the job board/API rather than the full ad, so this score was "
+            "scaled to the available text. Check the full posting via the apply link for a true picture."
+        )
+    breakdown["Keyword match"] = keyword_note
 
     # Resume formatting / completeness: up to 25 points.
     format_points = 0

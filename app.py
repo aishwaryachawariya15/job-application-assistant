@@ -245,6 +245,12 @@ if st.session_state.searched and st.session_state.results:
                 if resume_obj and tailor_key in st.session_state:
                     suggestions = st.session_state[tailor_key]
                     st.markdown(f"Keyword match: **{suggestions['match_percent']}%**")
+                    if suggestions.get("is_short_description"):
+                        st.caption(
+                            f"⚠️ This posting's description is short (~{suggestions['job_word_count']} words), "
+                            "likely a truncated snippet from the job board/API rather than the full ad. "
+                            "Match % was scaled accordingly, but it's worth checking the full posting via the apply link."
+                        )
                     if suggestions["missing_keywords"]:
                         st.markdown("Consider adding (if truthful):")
                         st.write(", ".join(suggestions["missing_keywords"][:20]))

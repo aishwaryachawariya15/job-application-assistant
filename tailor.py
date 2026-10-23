@@ -13,13 +13,15 @@ from scoring import keyword_match_score
 
 
 def build_tailoring_suggestions(resume: ParsedResume, job: JobPosting) -> dict:
-    match_percent, matched_keywords, missing_keywords = keyword_match_score(
+    match_percent, matched_keywords, missing_keywords, is_short_description, job_word_count = keyword_match_score(
         resume.keywords, job.description
     )
     return {
         "match_percent": match_percent,
         "matched_keywords": matched_keywords,
         "missing_keywords": missing_keywords,
+        "is_short_description": is_short_description,
+        "job_word_count": job_word_count,
     }
 
 
