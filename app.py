@@ -165,7 +165,22 @@ with st.form("search_form"):
         category_choice = st.selectbox("Job category", ["Any"] + list(JOB_CATEGORY_KEYWORDS.keys()))
         date_choice = st.selectbox("Job posted within", list(DATE_RANGE_OPTIONS.keys()), index=3)
 
-    results_per_search = st.slider("Max results to scan per resume", 10, 50, 20)
+    results_per_search = st.slider(
+        "Max results to scan per resume",
+        10,
+        50,
+        20,
+        help=(
+            "Controls how many job postings are pulled **per uploaded resume** before scoring "
+            "and ranking - not how many results you'll see at the end (you'll always get the "
+            "top 10 best matches overall).\n\n"
+            "- **Higher** (e.g. 50): casts a wider net, more candidates considered before picking "
+            "the top 10 -> better chance of finding strong matches, but takes a bit longer and "
+            "uses more of your API call quota per search.\n"
+            "- **Lower** (e.g. 10): faster and lighter on quota, but might miss good matches "
+            "further down the results list."
+        ),
+    )
 
     submitted = st.form_submit_button("Search jobs", use_container_width=True)
 
