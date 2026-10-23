@@ -20,8 +20,8 @@ import os
 import streamlit as st
 from dotenv import load_dotenv
 
-from analytics import get_visit_count, record_visit
-from job_search import ADZUNA_COUNTRIES, DATE_RANGE_OPTIONS, get_provider
+from analytics import get_visit_count, get_visitor_names, log_visitor_name, record_visit
+from job_search import ADZUNA_COUNTRIES, DATE_RANGE_OPTIONS, JOB_TYPE_OPTIONS, get_provider
 from resume_parser import parse_resume
 from scoring import rank_jobs_for_resumes
 from skills import ADZUNA_CATEGORY_TAGS, JOB_CATEGORY_KEYWORDS
@@ -50,6 +50,15 @@ st.caption(
     "with a suggested resume, a rough ATS score, and an H1B sponsorship likelihood for each."
 )
 
+visitor_name = st.text_input(
+    "Your name (optional)",
+    value="",
+    help="Purely optional - lets the developer know who's used this tool. Leave blank to stay anonymous.",
+)
+if visitor_name.strip() and st.session_state.get("logged_name") != visitor_name.strip():
+    if log_visitor_name(visitor_name):
+        st.session_state.logged_name = visitor_name.strip()
+
 # Developer-only visit stats, shown only when visiting with ?admin=1 in the
 # URL - e.g. https://oreo-job-agent.streamlit.app/?admin=1
 if st.query_params.get("admin") == "1":
@@ -58,6 +67,12 @@ if st.query_params.get("admin") == "1":
         st.info(f"📊 Developer stats: {visit_total} total visits recorded.")
     else:
         st.info("📊 Developer stats: visit counter temporarily unavailable.")
+
+    names_logged = get_visitor_names()
+    if names_logged:
+        with st.expander(f"👤 Visitors who gave their name ({len(names_logged)})"):
+            for entry in reversed(names_logged[-50:]):
+                st.caption(f"{entry.get('name', '?')} — {entry.get('time_utc', '?')}")
 
 # ---------------------------------------------------------------------------
 # Sidebar: API credentials
@@ -163,6 +178,11 @@ with st.form("search_form"):
             index=0,
         )
         category_choice = st.selectbox("Job category", ["Any"] + list(JOB_CATEGORY_KEYWORDS.keys()))
+        job_type_choice = st.selectbox(
+            "Job type",
+            list(JOB_TYPE_OPTIONS.keys()),
+            help="Full-time/Part-time filter how many hours per week; Contract/Permanent filter the employment arrangement. Pick 'Any' to skip this filter.",
+        )
         date_choice = st.selectbox("Job posted within", list(DATE_RANGE_OPTIONS.keys()), index=3)
 
     results_per_search = st.slider(
@@ -196,6 +216,7 @@ if submitted:
         # Adzuna's API only accepts its own fixed category tags (e.g. "engineering-jobs");
         # arbitrary keywords here cause an HTTP 400, so look up the real tag separately.
         api_category_tag = ADZUNA_CATEGORY_TAGS.get(category_choice) or ""
+        api_employment_type = JOB_TYPE_OPTIONS.get(job_type_choice) or ""
 
         all_jobs = []
         with st.spinner("Searching jobs for each resume..."):
@@ -214,6 +235,7 @@ if submitted:
                         max_days_old=max_days_old,
                         results_per_page=results_per_search,
                         category_tag=api_category_tag,
+                        employment_type=api_employment_type,
                     )
                     all_jobs.extend(jobs)
                 except Exception as e:
@@ -259,6 +281,7 @@ if st.session_state.searched and st.session_state.results:
                 "ATS Score": job.ats_score,
                 "H1B Likelihood": job.h1b_label,
                 "Category": job.category,
+                "Job Type": job.employment_type_label,
             }
         )
     st.dataframe(table_rows, use_container_width=True, hide_index=True)
@@ -268,7 +291,7 @@ if st.session_state.searched and st.session_state.results:
         with st.expander(f"#{i} - {job.title} @ {job.company} (ATS {job.ats_score}/100, {job.h1b_label})"):
             cols = st.columns([2, 1])
             with cols[0]:
-                st.markdown(f"**Location:** {job.location}  \n**Category:** {job.category or 'N/A'}  \n**Posted:** {job.created[:10]}")
+                st.markdown(f"**Location:** {job.location}  \n**Category:** {job.category or 'N/A'}  \n**Job type:** {job.employment_type_label}  \n**Posted:** {job.created[:10]}")
                 if job.salary_min or job.salary_max:
                     st.markdown(f"**Salary range:** {job.salary_min or '?'} - {job.salary_max or '?'}")
                 st.markdown(f"**Apply link:** [{job.url}]({job.url})" if job.url else "_No link available (demo data)_")
@@ -291,18 +314,33 @@ if st.session_state.searched and st.session_state.results:
                 tailor_key = f"tailored_{job.job_id}_{i}"
                 if resume_obj and tailor_key in st.session_state:
                     suggestions = st.session_state[tailor_key]
-                    st.markdown(f"Keyword match: **{suggestions['match_percent']}%**")
                     if suggestions.get("is_short_description"):
                         st.caption(
                             f"⚠️ This posting's description is short (~{suggestions['job_word_count']} words), "
                             "likely a truncated snippet from the job board/API rather than the full ad. "
-                            "Match % was scaled accordingly, but it's worth checking the full posting via the apply link."
+                            "Fewer key terms could be extracted from it than a full posting would have."
                         )
+
+                    bcol, acol = st.columns(2)
+                    with bcol:
+                        st.metric(
+                            "Before tailoring",
+                            f"{suggestions['ats_before']}/100",
+                            help=f"{suggestions['match_percent_before']}% of this job's key terms matched your current resume.",
+                        )
+                    with acol:
+                        st.metric(
+                            "After tailoring",
+                            f"{suggestions['ats_after']}/100",
+                            delta=suggestions["ats_after"] - suggestions["ats_before"],
+                            help=f"{suggestions['match_percent_after']}% match IF every suggested keyword below is genuinely added.",
+                        )
+
                     if suggestions["missing_keywords"]:
-                        st.markdown("Consider adding (if truthful):")
+                        st.markdown("**Keywords that would be added (only keep what's truthful):**")
                         st.write(", ".join(suggestions["missing_keywords"][:20]))
                     else:
-                        st.markdown("Resume already covers this job's key terms well.")
+                        st.markdown("Nothing to add - resume already covers this job's key terms well.")
 
                     tailored_txt = tailor_resume_text(resume_obj, job)
                     st.download_button(

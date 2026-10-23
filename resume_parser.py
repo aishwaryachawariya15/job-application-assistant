@@ -94,15 +94,20 @@ def extract_keywords(text: str, top_n: int = 25) -> tuple[list[str], list[str]]:
         reverse=True,
     )
 
-    words = [w.lower() for w in WORD_RE.findall(text)]
+    words = [w.lower().strip(".-") for w in WORD_RE.findall(text)]
+    words = [w for w in words if w]
     filtered = [w for w in words if w not in STOPWORDS and len(w) > 2]
 
     unigram_counts = Counter(filtered)
     bigram_counts = Counter(_ngrams(filtered, 2))
 
-    # Drop bigrams that are just stopword combinations / noise, keep ones
-    # that look like meaningful phrases (both words length > 2 already).
-    ranked_bigrams = [phrase for phrase, _ in bigram_counts.most_common(30)]
+    # Keep bigrams that recur (count >= 2) as a signal they're genuinely
+    # emphasized rather than a one-off sentence fragment (e.g. stray company
+    # tagline text like "find us everywhere" shouldn't look like a keyword).
+    # Short texts naturally have few/no repeats, in which case we simply
+    # fall back to unigrams + recognized skills - which is the right
+    # behavior rather than surfacing noisy fragments.
+    ranked_bigrams = [phrase for phrase, count in bigram_counts.most_common(30) if count >= 2]
     ranked_unigrams = [word for word, _ in unigram_counts.most_common(60)]
 
     combined: list[str] = []

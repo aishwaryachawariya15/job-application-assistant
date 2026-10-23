@@ -48,6 +48,18 @@ DATE_RANGE_OPTIONS = {
     "Past 30 days (1 month)": 30,
 }
 
+# Maps a user-friendly job type to the Adzuna boolean query param that
+# filters for it. Adzuna treats contract_time (full_time/part_time) and
+# contract_type (permanent/contract) as separate axes, so only one flag is
+# sent at a time based on this single-select choice.
+JOB_TYPE_OPTIONS = {
+    "Any": None,
+    "Full-time": "full_time",
+    "Part-time": "part_time",
+    "Contract": "contract",
+    "Permanent": "permanent",
+}
+
 
 @dataclass
 class JobPosting:
@@ -61,12 +73,28 @@ class JobPosting:
     category: str = ""
     salary_min: Optional[float] = None
     salary_max: Optional[float] = None
+    contract_time: str = ""  # "full_time" / "part_time" / "" (unknown)
+    contract_type: str = ""  # "permanent" / "contract" / "" (unknown)
     source: str = "adzuna"
     matched_resume: str = field(default="")
     ats_score: int = 0
     h1b_label: str = "Unknown"
     rank_score: float = 0.0
     score_breakdown: dict = field(default_factory=dict)
+
+    @property
+    def employment_type_label(self) -> str:
+        """Human-friendly combined display of contract_time/contract_type,
+        e.g. "Full-time, Permanent", or "Not specified" if neither is known.
+        """
+        labels = {
+            "full_time": "Full-time",
+            "part_time": "Part-time",
+            "permanent": "Permanent",
+            "contract": "Contract",
+        }
+        parts = [labels[v] for v in (self.contract_time, self.contract_type) if v in labels]
+        return ", ".join(parts) if parts else "Not specified"
 
 
 class AdzunaClient:
@@ -99,6 +127,7 @@ class AdzunaClient:
         max_days_old: int = 30,
         results_per_page: int = 20,
         category_tag: str = "",
+        employment_type: str = "",
         page: int = 1,
     ) -> list[JobPosting]:
         url = f"{self.BASE_URL}/{country_code}/search/{page}"
@@ -120,6 +149,10 @@ class AdzunaClient:
             # Must be one of Adzuna's own category tags (see ADZUNA_CATEGORY_TAGS
             # in skills.py) - arbitrary keywords here return an HTTP 400.
             params["category"] = category_tag
+        if employment_type:
+            # e.g. "full_time", "part_time", "contract", "permanent" - sent
+            # as its own boolean flag per Adzuna's API (see JOB_TYPE_OPTIONS).
+            params[employment_type] = 1
 
         resp = requests.get(url, params=params, timeout=20)
         resp.raise_for_status()
@@ -139,6 +172,8 @@ class AdzunaClient:
                     category=(item.get("category") or {}).get("label", ""),
                     salary_min=item.get("salary_min"),
                     salary_max=item.get("salary_max"),
+                    contract_time=item.get("contract_time", "") or "",
+                    contract_type=item.get("contract_type", "") or "",
                     source="adzuna",
                 )
             )
@@ -178,6 +213,7 @@ class DemoProvider:
         max_days_old: int = 30,
         results_per_page: int = 20,
         category_tag: str = "",
+        employment_type: str = "",
         page: int = 1,
     ) -> list[JobPosting]:
         what_terms = [t.lower() for t in what.split() if t.strip()]
@@ -191,10 +227,13 @@ class DemoProvider:
             if where and where.lower() not in item["location"].lower() and where.lower() not in "united states usa us":
                 # keep loose matching for demo purposes
                 pass
+            if employment_type and item.get("employment_type") != employment_type:
+                continue
             created_dt = datetime.fromisoformat(item["created"])
             if created_dt < cutoff:
                 continue
 
+            demo_type = item.get("employment_type", "")
             results.append(
                 JobPosting(
                     job_id=item["job_id"],
@@ -207,6 +246,8 @@ class DemoProvider:
                     category=item["category"],
                     salary_min=item.get("salary_min"),
                     salary_max=item.get("salary_max"),
+                    contract_time=demo_type if demo_type in ("full_time", "part_time") else "",
+                    contract_type=demo_type if demo_type in ("contract", "permanent") else "",
                     source="demo",
                 )
             )

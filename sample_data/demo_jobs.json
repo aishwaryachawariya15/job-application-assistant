@@ -9,7 +9,8 @@
     "salary_min": 130000,
     "salary_max": 170000,
     "days_ago": 1,
-    "description": "We are looking for a Senior Software Engineer with strong experience in Python, AWS, Docker, and Kubernetes to build scalable microservices. You will work with REST APIs, CI/CD pipelines, and PostgreSQL. Experience with machine learning pipelines is a plus. We are able to sponsor H1B visas for qualified candidates and support visa sponsorship for new hires."
+    "description": "We are looking for a Senior Software Engineer with strong experience in Python, AWS, Docker, and Kubernetes to build scalable microservices. You will work with REST APIs, CI/CD pipelines, and PostgreSQL. Experience with machine learning pipelines is a plus. We are able to sponsor H1B visas for qualified candidates and support visa sponsorship for new hires.",
+    "employment_type": "full_time"
   },
   {
     "job_id": "demo-002",
@@ -21,7 +22,8 @@
     "salary_min": 120000,
     "salary_max": 155000,
     "days_ago": 2,
-    "description": "Join our data science team to build machine learning and deep learning models using Python, TensorFlow, and PyTorch. You will perform data analysis, build ETL pipelines with Spark/Airflow, and present findings via Tableau. US citizens only; we do not offer visa sponsorship for this role."
+    "description": "Join our data science team to build machine learning and deep learning models using Python, TensorFlow, and PyTorch. You will perform data analysis, build ETL pipelines with Spark/Airflow, and present findings via Tableau. US citizens only; we do not offer visa sponsorship for this role.",
+    "employment_type": "full_time"
   },
   {
     "job_id": "demo-003",
@@ -33,7 +35,8 @@
     "salary_min": 110000,
     "salary_max": 150000,
     "days_ago": 4,
-    "description": "Build modern web applications using React, Node.js, TypeScript, and GraphQL. Experience with Docker, Git, and Agile/Scrum required. H1B sponsorship available for the right candidate, including H1B transfer support."
+    "description": "Build modern web applications using React, Node.js, TypeScript, and GraphQL. Experience with Docker, Git, and Agile/Scrum required. H1B sponsorship available for the right candidate, including H1B transfer support.",
+    "employment_type": "full_time"
   },
   {
     "job_id": "demo-004",
@@ -45,7 +48,8 @@
     "salary_min": 125000,
     "salary_max": 160000,
     "days_ago": 6,
-    "description": "Manage CI/CD, Terraform, Ansible, Kubernetes and AWS infrastructure. Strong Linux and Bash scripting skills required. Visa sponsorship is not provided for this position; must already have work authorization."
+    "description": "Manage CI/CD, Terraform, Ansible, Kubernetes and AWS infrastructure. Strong Linux and Bash scripting skills required. Visa sponsorship is not provided for this position; must already have work authorization.",
+    "employment_type": "full_time"
   },
   {
     "job_id": "demo-005",
@@ -57,7 +61,8 @@
     "salary_min": 85000,
     "salary_max": 110000,
     "days_ago": 3,
-    "description": "Design mechanical components using SolidWorks and AutoCAD. Apply Six Sigma and Lean Manufacturing principles to improve production quality. We will sponsor employment visa for exceptional candidates, including green card sponsorship for long-term employees."
+    "description": "Design mechanical components using SolidWorks and AutoCAD. Apply Six Sigma and Lean Manufacturing principles to improve production quality. We will sponsor employment visa for exceptional candidates, including green card sponsorship for long-term employees.",
+    "employment_type": "full_time"
   },
   {
     "job_id": "demo-006",
@@ -69,7 +74,8 @@
     "salary_min": 95000,
     "salary_max": 125000,
     "days_ago": 8,
-    "description": "Design and validate embedded systems, PCB layouts, and firmware for industrial automation products. Experience with circuit design and hardware testing required. Must be a US citizen due to export control regulations; no sponsorship available."
+    "description": "Design and validate embedded systems, PCB layouts, and firmware for industrial automation products. Experience with circuit design and hardware testing required. Must be a US citizen due to export control regulations; no sponsorship available.",
+    "employment_type": "full_time"
   },
   {
     "job_id": "demo-007",
@@ -81,7 +87,8 @@
     "salary_min": 70000,
     "salary_max": 140000,
     "days_ago": 1,
-    "description": "Drive new business through cold calling, lead generation, and consultative selling. Manage your pipeline in Salesforce CRM, negotiate contracts, and exceed quota attainment targets. Visa sponsorship available for exceptional sales talent."
+    "description": "Drive new business through cold calling, lead generation, and consultative selling. Manage your pipeline in Salesforce CRM, negotiate contracts, and exceed quota attainment targets. Visa sponsorship available for exceptional sales talent.",
+    "employment_type": "full_time"
   },
   {
     "job_id": "demo-008",
@@ -93,7 +100,8 @@
     "salary_min": 55000,
     "salary_max": 90000,
     "days_ago": 5,
-    "description": "Generate qualified leads through outbound prospecting and account management. Strong communication, negotiation, and customer relations skills required. Work authorization required; we are unable to sponsor at this time."
+    "description": "Generate qualified leads through outbound prospecting and account management. Strong communication, negotiation, and customer relations skills required. Work authorization required; we are unable to sponsor at this time.",
+    "employment_type": "contract"
   },
   {
     "job_id": "demo-009",
@@ -105,7 +113,8 @@
     "salary_min": 90000,
     "salary_max": 125000,
     "days_ago": 2,
-    "description": "Lead SEO, SEM, and social media marketing campaigns. Manage Google Ads and Google Analytics reporting, content strategy, and email marketing automation. H1B sponsorship is available for qualified marketing professionals."
+    "description": "Lead SEO, SEM, and social media marketing campaigns. Manage Google Ads and Google Analytics reporting, content strategy, and email marketing automation. H1B sponsorship is available for qualified marketing professionals.",
+    "employment_type": "full_time"
   },
   {
     "job_id": "demo-010",
@@ -117,7 +126,8 @@
     "salary_min": 55000,
     "salary_max": 75000,
     "days_ago": 10,
-    "description": "Support brand management, content marketing, and campaign management initiatives. Experience with HubSpot and social media marketing preferred. No visa sponsorship offered for this entry-level role."
+    "description": "Support brand management, content marketing, and campaign management initiatives. Experience with HubSpot and social media marketing preferred. No visa sponsorship offered for this entry-level role.",
+    "employment_type": "part_time"
   },
   {
     "job_id": "demo-011",
@@ -129,7 +139,8 @@
     "salary_min": 80000,
     "salary_max": 105000,
     "days_ago": 3,
-    "description": "Perform financial modeling, budgeting, and forecasting for portfolio management decisions. Advanced Excel and SAP skills required. Sponsorship available: we will sponsor H1B visas and green cards for strong candidates."
+    "description": "Perform financial modeling, budgeting, and forecasting for portfolio management decisions. Advanced Excel and SAP skills required. Sponsorship available: we will sponsor H1B visas and green cards for strong candidates.",
+    "employment_type": "full_time"
   },
   {
     "job_id": "demo-012",
@@ -141,7 +152,8 @@
     "salary_min": 60000,
     "salary_max": 78000,
     "days_ago": 15,
-    "description": "Manage accounts payable, accounts receivable, and bookkeeping using QuickBooks. Support audits and tax preparation. Must be authorized to work in the US without employer sponsorship."
+    "description": "Manage accounts payable, accounts receivable, and bookkeeping using QuickBooks. Support audits and tax preparation. Must be authorized to work in the US without employer sponsorship.",
+    "employment_type": "full_time"
   },
   {
     "job_id": "demo-013",
@@ -153,7 +165,8 @@
     "salary_min": 70000,
     "salary_max": 95000,
     "days_ago": 6,
-    "description": "Optimize procurement, inventory management, and logistics operations. Strong analytical skills and experience with forecasting required. Visa sponsorship available, including H-1B sponsorship for international candidates."
+    "description": "Optimize procurement, inventory management, and logistics operations. Strong analytical skills and experience with forecasting required. Visa sponsorship available, including H-1B sponsorship for international candidates.",
+    "employment_type": "full_time"
   },
   {
     "job_id": "demo-014",
@@ -165,7 +178,8 @@
     "salary_min": 75000,
     "salary_max": 100000,
     "days_ago": 4,
-    "description": "Own the post-sale customer relationship, drive adoption, and reduce churn. Experience with CRM tools, customer service, and stakeholder management required. No sponsorship available for this position."
+    "description": "Own the post-sale customer relationship, drive adoption, and reduce churn. Experience with CRM tools, customer service, and stakeholder management required. No sponsorship available for this position.",
+    "employment_type": "full_time"
   },
   {
     "job_id": "demo-015",
@@ -177,7 +191,8 @@
     "salary_min": 65000,
     "salary_max": 90000,
     "days_ago": 7,
-    "description": "Source and recruit software engineering and data talent. Partner with hiring managers, manage the applicant pipeline, and support onboarding. We offer visa sponsorship support for our internal recruiting team members."
+    "description": "Source and recruit software engineering and data talent. Partner with hiring managers, manage the applicant pipeline, and support onboarding. We offer visa sponsorship support for our internal recruiting team members.",
+    "employment_type": "full_time"
   },
   {
     "job_id": "demo-016",
@@ -189,7 +204,8 @@
     "salary_min": 85000,
     "salary_max": 115000,
     "days_ago": 2,
-    "description": "Provide critical patient care in a fast-paced ICU setting. Experience with EMR/EHR systems required. Must have existing US work authorization; sponsorship is not provided for nursing roles at this time."
+    "description": "Provide critical patient care in a fast-paced ICU setting. Experience with EMR/EHR systems required. Must have existing US work authorization; sponsorship is not provided for nursing roles at this time.",
+    "employment_type": "full_time"
   },
   {
     "job_id": "demo-017",
@@ -201,7 +217,8 @@
     "salary_min": 140000,
     "salary_max": 180000,
     "days_ago": 1,
-    "description": "Define product strategy and roadmap for our data platform. Work cross-functionally with engineering, design, and sales. Strong stakeholder management and strategic planning skills required. H1B sponsorship available, and we support H1B transfers."
+    "description": "Define product strategy and roadmap for our data platform. Work cross-functionally with engineering, design, and sales. Strong stakeholder management and strategic planning skills required. H1B sponsorship available, and we support H1B transfers.",
+    "employment_type": "full_time"
   },
   {
     "job_id": "demo-018",
@@ -213,7 +230,8 @@
     "salary_min": 90000,
     "salary_max": 120000,
     "days_ago": 12,
-    "description": "Manage construction project timelines, budgets, and vendor relationships. PMP certification preferred. This role requires existing work authorization; we cannot provide sponsorship."
+    "description": "Manage construction project timelines, budgets, and vendor relationships. PMP certification preferred. This role requires existing work authorization; we cannot provide sponsorship.",
+    "employment_type": "contract"
   },
   {
     "job_id": "demo-019",
@@ -225,7 +243,8 @@
     "salary_min": 95000,
     "salary_max": 130000,
     "days_ago": 5,
-    "description": "Improve semiconductor manufacturing processes using Six Sigma and root cause analysis. Experience with SCADA, process engineering, and quality control required. Visa sponsorship, including H1B and green card sponsorship, is available for this role."
+    "description": "Improve semiconductor manufacturing processes using Six Sigma and root cause analysis. Experience with SCADA, process engineering, and quality control required. Visa sponsorship, including H1B and green card sponsorship, is available for this role.",
+    "employment_type": "full_time"
   },
   {
     "job_id": "demo-020",
@@ -237,7 +256,8 @@
     "salary_min": 100000,
     "salary_max": 135000,
     "days_ago": 9,
-    "description": "Build automated test frameworks using Selenium, Python, and API testing tools. Collaborate with developers in an Agile/Scrum environment. Sponsorship not available; candidates must have current work authorization."
+    "description": "Build automated test frameworks using Selenium, Python, and API testing tools. Collaborate with developers in an Agile/Scrum environment. Sponsorship not available; candidates must have current work authorization.",
+    "employment_type": "contract"
   },
   {
     "job_id": "demo-021",
@@ -249,7 +269,8 @@
     "salary_min": 150000,
     "salary_max": 190000,
     "days_ago": 2,
-    "description": "Design and implement cloud computing solutions on AWS and Azure, including microservices, Kubernetes, and Terraform-based infrastructure as code. We proudly offer visa sponsorship, including H1B sponsorship and green card sponsorship, for exceptional architects."
+    "description": "Design and implement cloud computing solutions on AWS and Azure, including microservices, Kubernetes, and Terraform-based infrastructure as code. We proudly offer visa sponsorship, including H1B sponsorship and green card sponsorship, for exceptional architects.",
+    "employment_type": "full_time"
   },
   {
     "job_id": "demo-022",
@@ -261,7 +282,8 @@
     "salary_min": 60000,
     "salary_max": 85000,
     "days_ago": 20,
-    "description": "Write and manage content strategy across blogs, email marketing, and social media marketing channels. Experience with SEO and Google Analytics preferred. No visa sponsorship offered."
+    "description": "Write and manage content strategy across blogs, email marketing, and social media marketing channels. Experience with SEO and Google Analytics preferred. No visa sponsorship offered.",
+    "employment_type": "part_time"
   },
   {
     "job_id": "demo-023",
@@ -273,7 +295,8 @@
     "salary_min": 140000,
     "salary_max": 185000,
     "days_ago": 3,
-    "description": "Build and deploy deep learning and NLP models at scale using Python, PyTorch, and TensorFlow. Strong background in data engineering and MLOps required. We will sponsor H1B visas for outstanding ML engineers."
+    "description": "Build and deploy deep learning and NLP models at scale using Python, PyTorch, and TensorFlow. Strong background in data engineering and MLOps required. We will sponsor H1B visas for outstanding ML engineers.",
+    "employment_type": "full_time"
   },
   {
     "job_id": "demo-024",
@@ -285,7 +308,8 @@
     "salary_min": 50000,
     "salary_max": 95000,
     "days_ago": 25,
-    "description": "Manage inbound and outbound sales calls, qualify leads, and close deals using Salesforce CRM. Strong negotiation and communication skills required."
+    "description": "Manage inbound and outbound sales calls, qualify leads, and close deals using Salesforce CRM. Strong negotiation and communication skills required.",
+    "employment_type": "part_time"
   },
   {
     "job_id": "demo-025",
@@ -297,7 +321,8 @@
     "salary_min": 115000,
     "salary_max": 155000,
     "days_ago": 7,
-    "description": "Secure enterprise networks using firewalls, SIEM tools, and penetration testing. Cybersecurity certifications preferred. Due to federal contract requirements, candidates must be US citizens; no sponsorship available."
+    "description": "Secure enterprise networks using firewalls, SIEM tools, and penetration testing. Cybersecurity certifications preferred. Due to federal contract requirements, candidates must be US citizens; no sponsorship available.",
+    "employment_type": "full_time"
   },
   {
     "job_id": "demo-026",
@@ -309,7 +334,8 @@
     "salary_min": 95000,
     "salary_max": 125000,
     "days_ago": 18,
-    "description": "Oversee logistics, procurement, and inventory management across multiple distribution centers. We offer visa sponsorship for experienced supply chain leaders, including H1B transfer support."
+    "description": "Oversee logistics, procurement, and inventory management across multiple distribution centers. We offer visa sponsorship for experienced supply chain leaders, including H1B transfer support.",
+    "employment_type": "full_time"
   },
   {
     "job_id": "demo-027",
@@ -321,7 +347,8 @@
     "salary_min": 80000,
     "salary_max": 100000,
     "days_ago": 1,
-    "description": "Entry-level role building features in Java and SQL based backend services with Git-based workflows and REST APIs. Mentorship provided. Visa sponsorship available for new graduates, including OPT/CPT support and H1B sponsorship."
+    "description": "Entry-level role building features in Java and SQL based backend services with Git-based workflows and REST APIs. Mentorship provided. Visa sponsorship available for new graduates, including OPT/CPT support and H1B sponsorship.",
+    "employment_type": "full_time"
   },
   {
     "job_id": "demo-028",
@@ -333,6 +360,7 @@
     "salary_min": 70000,
     "salary_max": 90000,
     "days_ago": 14,
-    "description": "Analyze operational data and support process improvement initiatives using Excel, Power BI, and Tableau. Strong analytical and problem solving skills required."
+    "description": "Analyze operational data and support process improvement initiatives using Excel, Power BI, and Tableau. Strong analytical and problem solving skills required.",
+    "employment_type": "contract"
   }
 ]
