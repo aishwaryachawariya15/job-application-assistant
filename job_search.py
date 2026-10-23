@@ -128,6 +128,7 @@ class AdzunaClient:
         results_per_page: int = 20,
         category_tag: str = "",
         employment_type: str = "",
+        anchor_term: str = "",
         page: int = 1,
     ) -> list[JobPosting]:
         url = f"{self.BASE_URL}/{country_code}/search/{page}"
@@ -143,6 +144,15 @@ class AdzunaClient:
             "max_days_old": max_days_old,
             "content-type": "application/json",
         }
+        if anchor_term:
+            # Combined with what_or, Adzuna ANDs this in: the job must
+            # contain anchor_term AND at least one of the what_or terms.
+            # Used to keep an OR-query of loosely-related resume keywords
+            # (which may include a generic tool name like "python") from
+            # pulling in unrelated jobs - e.g. anchoring on "hardware" stops
+            # a hardware engineer's resume mentioning Python from surfacing
+            # pure software developer roles.
+            params["what"] = anchor_term
         if where:
             params["where"] = where
         if category_tag:
@@ -214,15 +224,19 @@ class DemoProvider:
         results_per_page: int = 20,
         category_tag: str = "",
         employment_type: str = "",
+        anchor_term: str = "",
         page: int = 1,
     ) -> list[JobPosting]:
         what_terms = [t.lower() for t in what.split() if t.strip()]
+        anchor_terms = [t.lower() for t in anchor_term.split() if t.strip()]
         cutoff = datetime.utcnow() - timedelta(days=max_days_old)
 
         results = []
         for item in self._jobs:
             haystack = f"{item['title']} {item['description']} {item['category']}".lower()
             if what_terms and not any(term in haystack for term in what_terms):
+                continue
+            if anchor_terms and not all(term in haystack for term in anchor_terms):
                 continue
             if where and where.lower() not in item["location"].lower() and where.lower() not in "united states usa us":
                 # keep loose matching for demo purposes

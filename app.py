@@ -236,6 +236,7 @@ if submitted:
                         results_per_page=results_per_search,
                         category_tag=api_category_tag,
                         employment_type=api_employment_type,
+                        anchor_term=category_fallback_term,
                     )
                     all_jobs.extend(jobs)
                 except Exception as e:

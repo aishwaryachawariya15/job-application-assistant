@@ -145,7 +145,11 @@ def count_skill_occurrences(text_lower: str, skill: str) -> int:
 
 
 JOB_CATEGORY_KEYWORDS = {
-    "Engineering": ["engineer", "engineering", "developer", "software", "hardware", "systems"],
+    "Engineering": [
+        "engineer", "engineering", "hardware", "mechanical", "electrical",
+        "circuit", "pcb", "embedded", "semiconductor", "validation",
+        "firmware", "systems engineer", "process engineer",
+    ],
     "IT / Software": ["software", "developer", "it ", "information technology", "programmer", "devops"],
     "Sales": ["sales", "account executive", "business development"],
     "Marketing": ["marketing", "seo", "brand", "content", "social media"],
