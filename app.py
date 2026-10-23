@@ -48,16 +48,32 @@ st.caption(
 # ---------------------------------------------------------------------------
 with st.sidebar:
     st.header("Job search source")
-    env_app_id = os.environ.get("ADZUNA_APP_ID", "")
-    env_app_key = os.environ.get("ADZUNA_APP_KEY", "")
+    server_app_id = os.environ.get("ADZUNA_APP_ID", "")
+    server_app_key = os.environ.get("ADZUNA_APP_KEY", "")
+    server_key_configured = bool(server_app_id and server_app_key)
 
-    app_id = st.text_input("Adzuna App ID (optional)", value=env_app_id, type="default")
-    app_key = st.text_input("Adzuna App Key (optional)", value=env_app_key, type="password")
-
-    st.markdown(
-        "Get a free key at [developer.adzuna.com](https://developer.adzuna.com/). "
-        "Without a key, the tool runs on bundled **demo data** so you can try the full workflow."
-    )
+    if server_key_configured:
+        st.success(
+            "This app is configured with a shared Adzuna API key for live job search. "
+            "Searches made here draw from that shared key's daily quota."
+        )
+        with st.expander("Use your own Adzuna API key instead (optional)"):
+            st.caption(
+                "Prefer not to share the quota? Get a free key at "
+                "[developer.adzuna.com](https://developer.adzuna.com/) and enter it below - "
+                "it's only used in your current browser session and never shown to anyone else."
+            )
+            own_app_id = st.text_input("Your Adzuna App ID", value="", type="default")
+            own_app_key = st.text_input("Your Adzuna App Key", value="", type="password")
+        app_id = own_app_id or server_app_id
+        app_key = own_app_key or server_app_key
+    else:
+        app_id = st.text_input("Adzuna App ID (optional)", value="", type="default")
+        app_key = st.text_input("Adzuna App Key (optional)", value="", type="password")
+        st.markdown(
+            "Get a free key at [developer.adzuna.com](https://developer.adzuna.com/). "
+            "Without a key, the tool runs on bundled **demo data** so you can try the full workflow."
+        )
 
     provider = get_provider(app_id, app_key)
     using_demo = provider.__class__.__name__ == "DemoProvider"
